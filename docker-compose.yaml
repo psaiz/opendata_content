@@ -23,10 +23,13 @@
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
 version: "2"
-
 services:
   web:
-    command: bash -c "cernopendata run -h 0.0.0.0 --reload; sleep 60;" # In case one needs to test/work with uWSGI comment out this CMD override.
+    environment:
+      - DEBUG=True
+      - FLASK_DEBUG=1
+      - TEMPLATES_AUTO_RELOAD=True
+    command: bash -c "/content/scripts/start-server-debug.sh" # In case one needs to test/work with uWSGI comment out this CMD override.
     restart: "unless-stopped"
     image: registry.cern.ch/cernopendata/cernopendata-portal:latest
     volumes:
@@ -36,7 +39,6 @@ services:
       - ./scripts:/code/scripts
 
   web-files:
-    image: registry.cern.ch/cernopendata/cernopendata-portal:latest
     profiles:
       - donotstart
   proxy:

@@ -26,10 +26,14 @@ A full explanation can be found in the developing guide of `cernopendata portal 
   $ git clone https://github.com/cernopendata/cernopendata-portal.git
   $ # Move to the directory of the content
   $ cd opendata_content
+  $ # The command line is a bit long: let's create an alias to avoid typing all of that
+  $ alias my_docker="docker compose -f ../cernopendata-portal/docker-compose.yml -f docker-compose.yaml"
+  $ # Make sure that the latest images are available
+  $ my_docker pull
   $ # Start the services
-  $ docker compose -f ../cernopendata-portal/docker-compose.yml -f ./docker-compose-curator.yml up -d
+  $ my_docker up -d
   $ # Create the basic structure
-  $ docker compose -f ../cernopendata-portal/docker-compose.yml exec -i -t web /code/scripts/populate-instance.sh
+  $ my_docker exec -it web /code/scripts/populate-instance.sh
 
 ..
 
@@ -60,7 +64,7 @@ The recommended development process is the following:
 
 .. code-block:: console
 
-   $ docker compose -f ../cernopendata-portal/docker-compose.yml exec -i -t web /content/scripts/check_fixtures.py
+   $ my_docker exec -it web /content/scripts/check_fixtures.py
 
 ..
 
@@ -68,7 +72,7 @@ The recommended development process is the following:
 
 .. code-block:: console
 
-   $ docker compose -f ../cernopendata-portal/docker-compose.yml exec -i -t web /content/scripts/load-fixtures.sh
+   $ my_docker exec -it web /content/scripts/load-fixtures.sh
 
 ..
 
@@ -76,8 +80,8 @@ The recommended development process is the following:
 
 .. code-block:: console
 
-   $ docker compose -f ../cernopendata-portal/docker-compose.yml exec -i -t web  cernopendata fixtures records --file /content/data/records/<full_path> --mode insert-or-update
-   $ docker compose -f ../cernopendata-portal/docker-compose.yml exec -i -t web  cernopendata fixtures docs --file /content/data/docs/<full_path> --mode insert-or-update
+   $ my_docker exec -it web cernopendata fixtures records --file /content/data/records/<full_path> --mode insert-or-update
+   $ my_docker exec -it web cernopendata fixtures docs --file /content/data/docs/<full_path> --mode insert-or-update
 
 ..
 
@@ -85,7 +89,7 @@ The recommended development process is the following:
 
 .. code-block:: console
 
-   $ docker compose -f ../cernopendata-portal/docker-compose.yml exec -i -t web  /data/scripts/load-images.sh
+   $ my_docker exec -it web /data/scripts/load-images.sh
 
 ..
 
